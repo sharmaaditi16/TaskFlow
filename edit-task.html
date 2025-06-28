@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Task - TaskFlow</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="css/new-style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Blobs -->
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-stream me-2"></i>TaskFlow
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="list.html"><i class="fas fa-tasks me-1"></i>List Tasks</a></li>
+                    <li class="nav-item"><a class="nav-link" href="create-task.html"><i class="fas fa-calendar me-1"></i>Create Tasks</a></li>
+                    <li class="nav-item"><a class="nav-link" id="logout-btn" href="#"><i class="fas fa-user me-1"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5 animate-in">
+                        <h1 class="page-title">Edit your Task</h1>
+                        <p class="page-subtitle">Transform your ideas into actionable tasks</p>
+                    </div>
+                    <div class="alert alert-success d-none" role="alert" id="alertSuccess">Task Updated.</div>
+                    <div class="alert alert-danger d-none" role="alert" id="alertFailure"></div>
+                    <input type="hidden" id="idFieldHidden" />
+
+                    <div class="form-container animate-in">
+                            <!-- Task Title -->
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-heading me-2"></i>Task Title
+                                </label>
+                                <input type="text" class="form-control" placeholder="Enter your task title..." required id="staticTitle">
+                            </div>
+
+                            <!-- Task Description -->
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-align-left me-2"></i>Description
+                                </label>
+                                <textarea class="form-control" rows="4" placeholder="Describe your task in detail..." id="inputDescription"></textarea>
+                            </div>
+
+                            <!-- Due Date -->
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-calendar me-2"></i>Due Date
+                                </label>
+                                <input type="date" class="form-control" id="inputDueDate">
+                            </div>
+
+                            <!-- Reminder -->
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-bell me-2"></i>Status
+                                </label>
+                                <select class="form-select" aria-label="Default Status" id="inputStatus">
+                                    <option value="pending">Pending</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex gap-3 justify-content-center mt-5">
+                                <button class="btn-primary-glass btn-shape" id="updateForm">
+                                    <i class="fas fa-plus"></i>Update Task
+                                </button>
+                                <a href="#" class="btn-secondary-glass btn-shape">
+                                    <i class="fas fa-times"></i>Cancel
+                                </a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/edit.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+
+        // Parallax effect for background blobs
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const blobs = document.querySelectorAll('.bg-blob');
+            
+            blobs.forEach((blob, index) => {
+                const speed = 0.5 + (index * 0.1);
+                blob.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Set today's date as default
+        document.querySelector('input[type="date"]').valueAsDate = new Date();
+    </script>
+</body>
+</html>

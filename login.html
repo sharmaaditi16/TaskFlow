@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - TaskFlow</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="css/new-style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Blobs -->
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-stream me-2"></i>TaskFlow
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5 animate-in">
+                        <h1 class="page-title">Login</h1>
+                        <p class="page-subtitle">Transform your ideas into actionable tasks with TaskFlow</p>
+                    </div>
+                    <div class="alert alert-danger d-none" role="alert" id="alertFailure">Failed to login User.</div>
+
+                    <div class="form-container animate-in">
+                            <!-- Email -->
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fa-solid fa-envelope"></i> Email
+                                </label>
+                                <input type="email" placeholder="john@doe.com" class="form-control input" id="email">
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fa fa-key"></i> Password
+                                </label>
+                                <input type="password" placeholder="Password" class="password form-control input" id="passwordF">
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex gap-3 justify-content-left mt-5">
+                                <div class="text-center mb-5 ">
+                                    <p class="page-subtitle">Forgot your password? 
+                                        <a href="forgot-password.html" class="forgot-pass">Reset it</a> or 
+                                        <a href="register.html" class="forgot-pass">Signup</a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex gap-3 justify-content-center mt-5">
+                                <button class="btn-primary-glass btn-shape" id="userLogin">
+                                    Login
+                                </button>
+                                <a href="#" class="btn-secondary-glass btn-shape">
+                                    <i class="fas fa-times"></i>Cancel
+                                </a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#userLogin").click(function () {
+                $("#alertFailure").addClass("d-none")
+
+                email = $("#email").val();
+                pass = $("#passwordF").val();
+
+                if (pass == "") {
+                    // alert("Password field is empty")
+                    $("#alertFailure").html("Passwords field is required.")
+                    $("#alertFailure").removeClass("d-none")
+                    event.preventDefault();
+                    return;
+                }
+                if (email == "") {
+                    // alert("Email field is empty")
+                    $("#alertFailure").html("Email field is required.")
+                    $("#alertFailure").removeClass("d-none")
+                    event.preventDefault();
+                    return;
+                }
+                if (!validateEmail(email)) {
+                    // alert("email validation failed")
+                    $("#alertFailure").html("Invalid Email format.")
+                    $("#alertFailure").removeClass("d-none")
+                    event.preventDefault();
+                    return;
+                }
+                // console.log("Email chk1: " + email);
+                let userData = {
+                    email: email,
+                    password: pass,
+                };
+                var api_url = "http://127.0.0.1:5000/login"
+
+                $.ajax({
+                    url: api_url,
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    dataType:'json',
+                    data: JSON.stringify(userData),
+                    success: function(response) {
+                        $("#email").val("")
+                        $("#passwordF").val("")
+                        localStorage.setItem("user_token", response.token);
+                        window.location = "index.html";
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $("#alertFailure").html("Failed to login User.")
+                        $("#alertFailure").removeClass("d-none")
+                    },
+                })
+            });
+        });
+
+        function validateEmail(email) {
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return pattern.test(email);
+        }
+    </script>
+    <script>
+
+        // Parallax effect for background blobs
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const blobs = document.querySelectorAll('.bg-blob');
+            
+            blobs.forEach((blob, index) => {
+                const speed = 0.5 + (index * 0.1);
+                blob.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TaskFlow</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="css/new-style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Background Blobs -->
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-stream me-2"></i>TaskFlow
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5 animate-in">
+                        <h1 class="page-title">Login</h1>
+                        <p class="page-subtitle">Transform your ideas into actionable tasks with TaskFlow</p>
+                    </div>
+                    <div class="alert alert-success d-none" role="alert" id="alertSuccess">Task Created</div>
+                    <div class="alert alert-danger d-none" role="alert" id="alertFailure">Failed to create User.
+                        Validation Failed.</div>
+                    <div class="form-container animate-in">
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fa-solid fa-envelope"></i> Email
+                            </label>
+                            <input type="email" placeholder="john@doe.com" class="form-control input" id="email">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fa-solid fa-user"></i> Username
+                            </label>
+                            <input type="text" placeholder="john_doe" class="form-control input" id="username">
+                        </div>
+                        <!-- Password -->
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fa fa-key"></i> Password
+                            </label>
+                            <input type="password" placeholder="Password" class="password form-control input"
+                                id="passwordF">
+                        </div>
+                        <!-- Confirm Password -->
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fa fa-key"></i> Confirm Password
+                            </label>
+                            <input type="password" placeholder="Password" class="password form-control input"
+                                id="confirm_password">
+                        </div>
+
+                        <div class="d-flex gap-3 justify-content-left mt-5">
+                            <div class="text-center mb-5 ">
+                                <p class="page-subtitle">Already have an account?
+                                    <a href="login.html" class="forgot-pass">Login</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-3 justify-content-center mt-5">
+                            <button class="btn-primary-glass btn-shape" id="userSignup">
+                                Signup
+                            </button>
+                            <a href="#" class="btn-secondary-glass btn-shape">
+                                <i class="fas fa-times"></i>Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $("#userSignup").click(function () {
+            $("#alertSuccess").addClass("d-none")
+            $("#alertFailure").addClass("d-none")
+
+            username = $("#username").val();
+            email = $("#email").val();
+            pass = $("#passwordF").val();
+            confirm_pass = $("#confirm_password").val();
+
+            if (pass != confirm_pass) {
+                $("#alertFailure").html("Passwords do not match.")
+                $("#alertFailure").removeClass("d-none")
+                return;
+            }
+            if (!validateEmail(email)) {
+                $("#alertFailure").html("Invalid Email format.")
+                $("#alertFailure").removeClass("d-none")
+                return;
+            }
+
+            let userData = {
+                email: email,
+                username: username,
+                password: pass,
+            };
+            var api_url = "http://127.0.0.1:5000/create-user"
+            $.ajax({
+                url: api_url,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(userData),
+                success: function (response) {
+                    $("#username").val("")
+                    $("#email").val("")
+                    $("#passwordF").val("")
+                    $("#confirm_password").val("")
+                    $("#alertSuccess").html("User Created Successfully.")
+                    $("#alertSuccess").removeClass("d-none")
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $("#alertFailure").html("Failed to create User. Validation Failed.")
+                    $("#alertFailure").removeClass("d-none")
+                },
+            })
+        });
+
+        function validateEmail(email) {
+            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return pattern.test(email);
+        }
+
+        // Parallax effect for background blobs
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const blobs = document.querySelectorAll('.bg-blob');
+
+            blobs.forEach((blob, index) => {
+                const speed = 0.5 + (index * 0.1);
+                blob.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+    </script>
+</body>
+
+</html>
