@@ -8,6 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="css/new-style.css" rel="stylesheet">
+    <link href="css/index-dn.css" rel="stylesheet">
 </head>
 <body>
     <!-- Background Blobs -->
@@ -118,6 +119,20 @@
 
         // Set today's date as default
         document.querySelector('input[type="date"]').valueAsDate = new Date();
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
     </script>
+    <script src="js/theme-switcher.js"></script>
+
 </body>
 </html>

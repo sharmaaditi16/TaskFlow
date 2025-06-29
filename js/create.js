@@ -9,6 +9,10 @@ $("#submitForm").click(function(){
     description_usr = $("#inputDescription").val()
     due_date_usr = $("#inputDueDate").val()
     status_usr = $('#inputStatus option:selected').text();
+    if (title_usr == "" || description_usr == "" || due_date_usr == "" || status_usr == "") {
+        $("#alertFailure").removeClass("d-none")
+        return;
+    }
     let taskData = {
         title: title_usr,
         description: description_usr,

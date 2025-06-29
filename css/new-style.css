@@ -105,7 +105,15 @@ body {
 }
 
 .page-title {
-    color: white;
+    color: var(--bg-primary);;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+.page-title {
+    color: var(--text-primary);
     font-size: 2.5rem;
     font-weight: 700;
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -113,7 +121,7 @@ body {
 }
 
 .page-subtitle {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
     font-size: 1.1rem;
     margin-bottom: 1rem !important;
 }
@@ -122,14 +130,14 @@ body {
 .form-container {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--text-muted);
     border-radius: .375rem;
     padding: 3rem;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .form-label {
-    color: white;
+    color: var(--text-primary);
     font-weight: 600;
     margin-bottom: 0.8rem;
     font-size: 0.95rem;
@@ -138,6 +146,7 @@ body {
 .form-control, .form-select {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.3);
+    border-color: var(--text-muted);
     border-radius: .375rem;
     padding: 0.8rem 1rem;
     font-size: 0.95rem;
@@ -147,7 +156,7 @@ body {
 
 .form-control:focus, .form-select:focus {
     background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: var(--text-secondary);
     box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
     transform: translateY(-2px);
 }
@@ -182,7 +191,7 @@ body {
 .btn-primary-glass:hover {
     background: rgba(255, 255, 255, 0.3);
     border-color: rgba(255, 255, 255, 0.5);
-    color: white;
+    color: var(--text-primary);
     transform: translateY(-3px);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }

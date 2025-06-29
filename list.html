@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Task - TaskFlow</title>
+    <title>List Tasks - TaskFlow</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="css/new-style.css" rel="stylesheet">
+    <link href="css/index-dn.css" rel="stylesheet">
     <style>
         .table-body{
             background-color: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -92,7 +93,7 @@
     <script src="js/index.js"></script>
     <script src="js/common.js"></script>
 
-<script>
+    <script>
         // Parallax effect for background blobs
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
@@ -106,6 +107,21 @@
 
         // Set today's date as default
         // document.querySelector('input[type="date"]').valueAsDate = new Date();
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
     </script>
+    <script src="js/theme-switcher.js"></script>
 </body>
 </html>
