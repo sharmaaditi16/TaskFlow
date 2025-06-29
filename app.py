@@ -78,6 +78,12 @@ def login():
 def home():
     return jsonify({'message': 'Welcome to Taskly API!'}), 200
 
+@app.route('/copilot-suggest', methods=['POST'])
+# @crossdomain(origin="*")
+@token_required
+def copilot_suggest(user_id):
+    return Taskly().copilot_suggest(request)
+
 # Run the Flask app
 if __name__ == '__main__':
     app.run(debug=True)#Starts the Flask
