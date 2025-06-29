@@ -5,7 +5,6 @@ from functools import wraps
 import jwt
 from user import User
 from appconf import AppConfig
-# from flask.ext.cors import CORS, cross_origin
 
 app = AppConfig().app
 CORS(app)
@@ -20,7 +19,7 @@ def token_required(f):
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
             current_user = User().get_user_by_id(data['id'])
-            user_id = current_user.json.get('user', {}).get('id')
+            user_id = current_user.json.get('user', {})
         except:
             return jsonify({'message': 'Token is invalid!'}), 401
         if 'task_id' in kwargs:
@@ -75,11 +74,11 @@ def login():
     taskly = Taskly()
     return taskly.login(request)
 
-@app.route('/copilot-suggest', methods=['POST'])
-# @crossdomain(origin="*")
-@token_required
-def copilot_suggest(user_id):
-    return Taskly().copilot_suggest(request)
-
+@app.route('/',methods=['GET'])
+def home():
+    return jsonify({'message': 'Welcome to Taskly API!'}), 200
 
 # Run the Flask app
+if __name__ == '__main__':
+    app.run(debug=True)#Starts the Flask
+

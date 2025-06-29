@@ -19,21 +19,21 @@ class User:
         mySalt = bcrypt.gensalt()
         bytePwd = password.encode('utf-8')
         hash_pass = bcrypt.hashpw(bytePwd, mySalt)
-
+        password_hash = hash_pass.decode('utf8')
         cursor = self.conn.cursor()
 
         sql= "insert into users (username, email, password) values(%s, %s, %s)"
-        values = (username, email, hash_pass)
+        values = (username, email, password_hash)
         cursor.execute(sql, values)
         self.conn.commit()
         return jsonify({"message": "User added successfully!"})
     
     def get_user_by_id(self, user_id=None):
-        cursor = self.conn.cursor(dictionary=True)
+        cursor = self.conn.cursor()
         cursor.execute("SELECT id, username, email FROM users WHERE id = %s", (user_id,))
         user = cursor.fetchone()
         if user:
-            return jsonify({"user": user})
+            return jsonify({"user": user[0]})
         else:
             return jsonify({"message": "User not found"}), 404
 
