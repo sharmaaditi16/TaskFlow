@@ -6,7 +6,7 @@ class AppConfig:
         self.conn = mysql.connector.connect(
             host="localhost",    
             user="root",         
-            password="",  
+            password="bholupie",  
             database="task_manager"
         )
         self.app = None  # Placeholder for Flask app instance

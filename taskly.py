@@ -6,12 +6,16 @@ import jwt
 from datetime import datetime, timezone, timedelta
 from functools import wraps
 from appconf import AppConfig
+from transformers import pipeline
+
 
 class Taskly:
 
     def __init__(self):
         self.conn = AppConfig().conn
         self.config = AppConfig().app.config
+        self.generator = pipeline("text2text-generation", model="google/flan-t5-small")
+
 
     def get_tasks(self,user_id=None):
         cursor = self.conn.cursor(dictionary=True)
@@ -91,3 +95,17 @@ class Taskly:
                            self.config['SECRET_KEY'], algorithm="HS256")
                 
         return jsonify({"login": pass_check_status, "token": token})
+    
+    def copilot_suggest(self, request):
+        data = request.json
+        input_text = data.get("input", "")
+        prompt = f"Help me with: {input_text}"
+
+        try:
+            result = self.generator(prompt, max_new_tokens=100)
+            response = jsonify({"answer": result[0]["generated_text"]})
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+

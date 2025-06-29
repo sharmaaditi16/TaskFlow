@@ -5,6 +5,7 @@ from functools import wraps
 import jwt
 from user import User
 from appconf import AppConfig
+# from flask.ext.cors import CORS, cross_origin
 
 app = AppConfig().app
 CORS(app)
@@ -73,6 +74,13 @@ def create_user():
 def login():
     taskly = Taskly()
     return taskly.login(request)
+
+@app.route('/copilot-suggest', methods=['POST'])
+# @crossdomain(origin="*")
+@token_required
+def copilot_suggest(user_id):
+    return Taskly().copilot_suggest(request)
+
 
 # Run the Flask app
 if __name__ == '__main__':
