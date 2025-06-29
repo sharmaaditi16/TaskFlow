@@ -6,7 +6,6 @@ import jwt
 from datetime import datetime, timezone, timedelta
 from functools import wraps
 from appconf import AppConfig
-from transformers import pipeline
 
 
 class Taskly:
