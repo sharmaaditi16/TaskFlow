@@ -53,7 +53,7 @@ class Taskly:
         task_id = cursor.lastrowid
         cursor.close()
         self.conn.close()
-        return jsonify({"message": "Task added successfully", "task_id": task_id}), 201
+        return jsonify({"message": "Task added successfully"}), 201
 
     def update_task(self,request,user_id=None):
         data=request.get_json()
@@ -76,6 +76,8 @@ class Taskly:
         cursor = self.conn.cursor()  
         cursor.execute("SELECT * FROM tasks WHERE id = %s and created_by = %s", (task_id,user_id))#single tuple
         task = cursor.fetchone() 
+        if task is None:
+            return jsonify({"error": "Task not found"}), 404
         task_dict = {
             "id": task[0],
             "title": task[1],
