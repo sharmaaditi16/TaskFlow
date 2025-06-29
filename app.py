@@ -83,6 +83,3 @@ def copilot_suggest(user_id):
 
 
 # Run the Flask app
-if __name__ == '__main__':
-    app.run(debug=True)#Starts the Flask
-
