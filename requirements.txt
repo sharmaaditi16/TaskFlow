@@ -6,4 +6,3 @@ requests
 PyJWT
 bcrypt
 psycopg2-binary
-transformers[torch]
